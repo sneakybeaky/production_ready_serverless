@@ -15,6 +15,11 @@
     "aws-sdk": "^2.671.0",
     "dotenv": "^8.2.0",
     "serverless": "^1.69.0",
-    "serverless-export-env": "^1.2.0"
+    "serverless-export-env": "^1.2.0",
+    "serverless-pseudo-parameters": "^2.5.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "mustache": "^4.0.1"
   }
 }
