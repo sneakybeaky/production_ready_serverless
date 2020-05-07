@@ -1,0 +1,17 @@
+{
+  "name": "production-ready-serverless-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls": "awsp -- serverless"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@stewartml/aws-profile": "^1.0.1",
+    "serverless": "^1.69.0"
+  }
+}
