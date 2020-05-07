@@ -12,6 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "@stewartml/aws-profile": "^1.0.1",
-    "serverless": "^1.69.0"
+    "aws-sdk": "^2.671.0",
+    "dotenv": "^8.2.0",
+    "serverless": "^1.69.0",
+    "serverless-export-env": "^1.2.0"
   }
 }
