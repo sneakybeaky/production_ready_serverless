@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk')
-AWS.config.region = 'us-east-1'
+AWS.config.region = 'eu-west-2'
 const dynamodb = new AWS.DynamoDB.DocumentClient()
 require('dotenv').config()
 
