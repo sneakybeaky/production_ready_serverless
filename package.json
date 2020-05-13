@@ -10,7 +10,7 @@
     "ciDotEnv": "serverless export-env",
     "test": "npm run dotEnv && awsp -- cross-env TEST_MODE=handler jest",
     "citest": "npm run ciDotEnv && cross-env TEST_MODE=handler jest",
-    "acceptance": "npm run dotEnv && awsp -- cross-env TEST_MODE=http jest"
+    "acceptance": "npm run dotEnv && awsp -- cross-env TEST_MODE=http jest",
     "ciacceptance": "npm run ciDotEnv && cross-env TEST_MODE=http jest"
   },
   "keywords": [],
