@@ -11,7 +11,7 @@ jobs:
       - node/with-cache:
           steps:
             - run: npm ci
-            - run: npm run test # run our integration tests
+            - run: npm run citest # run our integration tests
   deploy:
     docker:
       - image: circleci/node
