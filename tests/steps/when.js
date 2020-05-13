@@ -91,12 +91,20 @@ const we_invoke_get_restaurants = async () => {
     }
 }
 
-const we_invoke_search_restaurants = theme => {
-    let event = {
-        body: JSON.stringify({ theme })
+const we_invoke_search_restaurants = async (theme, user) => {
+    const body = JSON.stringify({ theme })
+
+    switch (mode) {
+        case 'handler':
+            return await viaHandler({ body }, 'search-restaurants')
+        case 'http':
+            const auth = user.idToken
+            return await viaHttp('restaurants/search', 'POST', { body, auth })
+        default:
+            throw new Error(`unsupported mode: ${mode}`)
     }
-    return viaHandler(event, 'search-restaurants')
 }
+
 
 
 module.exports = {

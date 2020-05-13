@@ -42,6 +42,7 @@ functions:
             - .execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/restaurants
       cognito_user_pool_id: !Ref CognitoUserPool
       cognito_client_id: !Ref WebCognitoUserPoolClient
+      cognito_server_client_id: !Ref ServerCognitoUserPoolClient
 
   get-restaurants:
     handler: functions/get-restaurants.handler
@@ -60,7 +61,7 @@ functions:
           path: /restaurants/search
           method: post
           authorizer:
-            arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/us-east-1_3FJUw5cDl
+            arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/eu-west-2_jvI8mof4G
     environment:
       restaurants_table: !Ref RestaurantsTable
 
