@@ -6,7 +6,8 @@
   "scripts": {
     "sls": "awsp -- serverless",
     "dotEnv": "awsp -- serverless export-env",
-    "test": "npm run dotEnv && awsp -- cross-env TEST_MODE=handler jest"
+    "test": "npm run dotEnv && awsp -- cross-env TEST_MODE=handler jest",
+    "acceptance": "npm run dotEnv && awsp -- cross-env TEST_MODE=http jest"
   },
   "keywords": [],
   "author": "",
