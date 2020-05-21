@@ -3,11 +3,13 @@ const _ = require('lodash')
 const aws4 = require('aws4')
 const URL = require('url')
 const http = require('axios')
+const { promisify } = require('util')
+
 
 const mode = process.env.TEST_MODE
 
 const viaHandler = async (event, functionName) => {
-    const handler = require(`${APP_ROOT}/functions/${functionName}`).handler
+    const handler = promisify(require(`${APP_ROOT}/functions/${functionName}`).handler)
 
     const context = {}
     const response = await handler(event, context)

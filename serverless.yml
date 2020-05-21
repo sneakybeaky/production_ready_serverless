@@ -9,6 +9,8 @@ provider:
   runtime: nodejs12.x
   region: eu-west-2
   environment:
+    serviceName: ${self:service}
+    stage: ${self:provider.stage}
     rootUrl:
       Fn::Join:
         - ""
