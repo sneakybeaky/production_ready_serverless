@@ -26,6 +26,11 @@ provider:
     - Effect: Allow
       Action: execute-api:Invoke
       Resource: arn:aws:execute-api:#{AWS::Region}:#{AWS::AccountId}:#{ApiGatewayRestApi}/${self:provider.stage}/GET/restaurants
+    - Effect: Allow
+      Action: ssm:GetParameters*
+      Resource:
+        - arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:service}/${self:provider.stage}/get-restaurants/config
+        - arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:service}/${self:provider.stage}/search-restaurants/config
 
 
 functions:
