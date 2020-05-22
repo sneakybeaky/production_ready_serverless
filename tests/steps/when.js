@@ -107,10 +107,26 @@ const we_invoke_search_restaurants = async (theme, user) => {
     }
 }
 
+const we_invoke_place_order = async (user, restaurantName) => {
+    const body = JSON.stringify({ restaurantName })
+
+    switch (mode) {
+        case 'handler':
+            return await viaHandler({ body }, 'place-order')
+        case 'http':
+            const auth = user.idToken
+            return await viaHttp('orders', 'POST', { body, auth })
+        default:
+            throw new Error(`unsupported mode: ${mode}`)
+    }
+}
+
+
 
 
 module.exports = {
     we_invoke_get_index,
     we_invoke_get_restaurants,
-    we_invoke_search_restaurants
+    we_invoke_search_restaurants,
+    we_invoke_place_order
 }
