@@ -63,6 +63,10 @@ functions:
           - - https://
             - !Ref ApiGatewayRestApi
             - .execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/orders
+    iamRoleStatements:
+      - Effect: Allow
+        Action: execute-api:Invoke
+        Resource: arn:aws:execute-api:#{AWS::Region}:#{AWS::AccountId}:#{ApiGatewayRestApi}/${self:provider.stage}/GET/restaurants
 
 
   get-restaurants:
@@ -74,6 +78,13 @@ functions:
           authorizer: aws_iam
     environment:
       restaurants_table: !Ref RestaurantsTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:scan
+        Resource: !GetAtt RestaurantsTable.Arn
+      - Effect: Allow
+        Action: ssm:GetParameters*
+        Resource: arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:service}/${self:provider.stage}/get-restaurants/config
 
   search-restaurants:
     handler: functions/search-restaurants.handler
@@ -85,6 +96,14 @@ functions:
             arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/eu-west-2_jvI8mof4G
     environment:
       restaurants_table: !Ref RestaurantsTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:scan
+        Resource: !GetAtt RestaurantsTable.Arn
+      - Effect: Allow
+        Action: ssm:GetParameters*
+        Resource:
+          - arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/${self:service}/${self:provider.stage}/search-restaurants/config
 
   place-order:
     handler: functions/place-order.handler
@@ -97,6 +116,10 @@ functions:
             authorizerId: !Ref CognitoAuthorizer
     environment:
       bus_name: !Ref EventBus
+    iamRoleStatements:
+      - Effect: Allow
+        Action: events:PutEvents
+        Resource: "*"
 
   notify-restaurant:
     handler: functions/notify-restaurant.handler
@@ -111,6 +134,13 @@ functions:
     environment:
       bus_name: !Ref EventBus
       restaurant_notification_topic: !Ref RestaurantNotificationTopic
+    iamRoleStatements:
+      - Effect: Allow
+        Action: events:PutEvents
+        Resource: "*"
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: !Ref RestaurantNotificationTopic
 
 
 
@@ -237,3 +267,4 @@ resources:
 plugins:
   - serverless-export-env
   - serverless-pseudo-parameters
+  - serverless-iam-roles-per-function
