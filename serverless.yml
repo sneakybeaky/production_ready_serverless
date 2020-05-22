@@ -34,6 +34,9 @@ provider:
     - Effect: Allow
       Action: events:PutEvents
       Resource: "*"
+    - Effect: Allow
+      Action: sns:Publish
+      Resource: !Ref RestaurantNotificationTopic
 
 
 
@@ -94,6 +97,21 @@ functions:
             authorizerId: !Ref CognitoAuthorizer
     environment:
       bus_name: !Ref EventBus
+
+  notify-restaurant:
+    handler: functions/notify-restaurant.handler
+    events:
+      - eventBridge:
+          eventBus: arn:aws:events:#{AWS::Region}:#{AWS::AccountId}:event-bus/order_events_${self:provider.stage}
+          pattern:
+            source:
+              - big-mouth
+            detail-type:
+              - order_placed
+    environment:
+      bus_name: !Ref EventBus
+      restaurant_notification_topic: !Ref RestaurantNotificationTopic
+
 
 
 
@@ -187,6 +205,8 @@ resources:
       Type: AWS::Events::EventBus
       Properties:
         Name: order_events_${self:provider.stage}
+    RestaurantNotificationTopic:
+      Type: AWS::SNS::Topic
 
   Outputs:
     RestaurantsTableName:
@@ -206,6 +226,12 @@ resources:
 
     EventBusName:
       Value: !Ref EventBus
+
+    RestaurantNotificationTopicName:
+      Value: !GetAtt RestaurantNotificationTopic.TopicName
+
+    RestaurantNotificationTopicArn:
+      Value: !Ref RestaurantNotificationTopic
 
 
 plugins:
