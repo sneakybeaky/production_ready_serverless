@@ -148,6 +148,18 @@ resources:
         Type: COGNITO_USER_POOLS
         ProviderARNs:
           - !GetAtt CognitoUserPool.Arn
+    ServiceUrlParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Type: String
+        Name: /${self:service}/${self:provider.stage}/serviceUrl
+        Value:
+          Fn::Join:
+            - ""
+            - - https://
+              - !Ref ApiGatewayRestApi
+              - .execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}
+
 
 
 
